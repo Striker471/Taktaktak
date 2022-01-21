@@ -85,6 +85,7 @@ public abstract class Circle implements Runnable, ActionListener {
     protected Shape nextFrame() {
         // zapamietanie na zmiennej tymczasowej
         // aby nie przeszkadzalo w wykreslaniu
+    	System.out.println(this);
         area = new Area(area);
         affineTransform = new AffineTransform();
 
@@ -92,11 +93,12 @@ public abstract class Circle implements Runnable, ActionListener {
 
         int cx = bounds.x + bounds.width / 2;
         int cy = bounds.y + bounds.height / 2;
-
+        
         // odbicie
-        if (cx < 0 || cx > dWidth)
+        System.out.println(dWidth);
+        if (cx < 0 || cx > WIDTH-MARGIN) //te wartości można by zweryfikować
             dPosX = -dPosX;
-        if (cy < 0 || cy > dHeight)
+        if (cy < 0 || cy > HEIGHT-MARGIN) //te wartości też można by zweryfikować
             dPosY = -dPosY;
 
         // konstrukcja przeksztalcenia
@@ -108,4 +110,6 @@ public abstract class Circle implements Runnable, ActionListener {
         area.transform(affineTransform);
         return area;
     }
+ 
+  
 }

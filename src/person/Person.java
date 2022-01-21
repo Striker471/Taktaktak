@@ -4,6 +4,8 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.AffineTransform;
+import java.awt.geom.Area;
+import java.awt.geom.Ellipse2D;
 
 
 public class Person extends Circle implements ActionListener {	// musi rozszerzac jakas klase od ksztaltu
@@ -26,6 +28,7 @@ public class Person extends Circle implements ActionListener {	// musi rozszerza
 		}
 		affineTransform = new AffineTransform();
 
+		area = new Area(super.shape);
 		/* poczatkowy wektor: + albo - (przy kolizji z krawedzia okna bedzie zmienial znak) */
 //		this.vx = RND.nextBoolean() ? 4 : -4;
 //		this.vy = RND.nextBoolean() ? 4 : -4;
