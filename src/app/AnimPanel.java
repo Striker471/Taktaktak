@@ -19,6 +19,8 @@ public class AnimPanel extends JPanel implements ActionListener {
 
 	private int delay = 70;
 
+	private int movingSpeed;
+
 	private final Timer timer;
 
 	public AnimPanel(int width, int height) {
@@ -77,6 +79,10 @@ public class AnimPanel extends JPanel implements ActionListener {
 	protected void setDelay(int delay)
 	{
 		this.delay = delay;
+	}
+
+	public void setMovingSpeed(int movingSpeed) {
+		this.movingSpeed = movingSpeed;
 	}
 
 	@Override
