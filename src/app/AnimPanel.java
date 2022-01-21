@@ -1,7 +1,7 @@
 package app;
 
+import person.Circle;
 import person.Person;
-import person.PersonColors;
 
 import javax.swing.*;
 import java.awt.*;
@@ -48,20 +48,20 @@ public class AnimPanel extends JPanel implements ActionListener {
 	}
 
 	void addInfected() {
-		Person infected = new Person(buffer, delay, false);
-		infected.setInfected(true);
+		Circle infected = new Person(buffer, delay, false);
+		((Person) infected).setInfected(true);
 		timer.addActionListener(infected);
 		new Thread(infected).start();
 	}
 
 	void addDoctor() {
-		Person doctor = new Person(buffer, delay, true);
+		Circle doctor =  new Person(buffer, delay, true);
 		timer.addActionListener(doctor);
 		new Thread(doctor).start();
 	}
 
 	void addNormal() {
-		Person normal = new Person(buffer, delay, false);
+		Circle normal = new Person(buffer, delay, false);
 		timer.addActionListener(normal);
 		new Thread(normal).start();
 	}
