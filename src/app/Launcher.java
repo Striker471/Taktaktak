@@ -1,11 +1,18 @@
 package app;
 
-import javax.swing.SwingUtilities;
+import java.awt.*;
 
 public class Launcher {
 	public static void main(String[] args) {
-		SwingUtilities.invokeLater(() -> {
-			new Window();
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					final Window pandemic = new Window();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
 		});
 	}
+
 }
