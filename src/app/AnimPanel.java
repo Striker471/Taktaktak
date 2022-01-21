@@ -1,12 +1,20 @@
 package app;
 
-import person.Circle;
-import person.Person;
-
-import javax.swing.*;
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Graphics2D;
+import java.awt.Image;
+import java.awt.RenderingHints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.swing.JPanel;
+import javax.swing.Timer;
+
+import person.Circle;
+import person.Person;
 
 public class AnimPanel extends JPanel implements ActionListener {
 
@@ -16,7 +24,9 @@ public class AnimPanel extends JPanel implements ActionListener {
 	Graphics2D device;
 	// wykreslacz bufora
 	Graphics2D buffer;
-
+	
+	// lista wszystkich obiektów klasy Person
+	public static List<Person> people=new ArrayList<>();
 	private int delay = 70;
 
 	private int movingSpeed;
@@ -48,24 +58,28 @@ public class AnimPanel extends JPanel implements ActionListener {
 			addInfected();
 		}
 	}
-
+	
+	// Dodawanie zarażonych do listy people i tworzenie nowego wątku
 	void addInfected() {
-		Circle infected = new Person(buffer, delay, false);
-		((Person) infected).setInfected(true);
-		timer.addActionListener(infected);
-		new Thread(infected).start();
+		people.add(new Person(buffer, delay, false));
+		((Person) people.get(people.size()-1)).setInfected(true);
+		timer.addActionListener(people.get(people.size()-1));
+		new Thread(people.get(people.size()-1)).start();
+	
 	}
-
+	
+	// Dodawanie doktora do listy people i tworzenie nowego wątku
 	void addDoctor() {
-		Circle doctor =  new Person(buffer, delay, true);
-		timer.addActionListener(doctor);
-		new Thread(doctor).start();
+		people.add(new Person(buffer, delay, true));
+		timer.addActionListener(people.get(people.size()-1));
+		new Thread(people.get(people.size()-1)).start();
 	}
-
+	
+	// Dodawanie zdrowego do listy people i tworzenie nowego wątku
 	void addNormal() {
-		Circle normal = new Person(buffer, delay, false);
-		timer.addActionListener(normal);
-		new Thread(normal).start();
+		people.add(new Person(buffer, delay, false));
+		timer.addActionListener(people.get(people.size()-1));
+		new Thread(people.get(people.size()-1)).start();
 	}
 
 	void animate() {
@@ -90,4 +104,12 @@ public class AnimPanel extends JPanel implements ActionListener {
 		device.drawImage(image, 0, 0, null);
 		buffer.clearRect(0, 0, getWidth(), getHeight());
 	}
+	
+	//zwracanie listy
+	public static List<Person> getPeople() {
+		return people;
+	}
+
+	
+	
 }

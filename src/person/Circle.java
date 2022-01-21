@@ -8,6 +8,8 @@ import java.awt.geom.Area;
 import java.awt.geom.Ellipse2D;
 import java.util.Random;
 
+import app.AnimPanel;
+
 import static app.Window.HEIGHT;
 import static app.Window.WIDTH;
 
@@ -31,7 +33,11 @@ public abstract class Circle implements Runnable, ActionListener {
 
     // przesuniecie
     private int dPosX, dPosY;
-    private final int dDelay;
+    protected final int dDelay;
+    
+    // wartość obecnego x i y obiektu 
+    private int x, y;
+   
 
     protected static final Random rand = new Random();
 
@@ -40,6 +46,8 @@ public abstract class Circle implements Runnable, ActionListener {
     public Circle(Graphics2D buffer, int delay) {
         this.dWidth = RND.nextInt(WIDTH-2*MARGIN) + MARGIN;
         this.dHeight = RND.nextInt(HEIGHT-2*MARGIN) + MARGIN;
+        this.x= dWidth;
+        this.y= dHeight;
         g2DBuffer = buffer;
         dDelay = delay;
         this.shape = new Ellipse2D.Double(dWidth, dHeight, 10, 10);
@@ -55,37 +63,18 @@ public abstract class Circle implements Runnable, ActionListener {
         return dHeight;
     }
 
-//    public int getRadius() {
-//        return radius;
-//    }
+
 
     public Rectangle getBounds() {
         return shape.getBounds();
     }
 
 
-    @Override
-    public void run() {
-        // przesuniecie na srodek
-        affineTransform.translate(100, 100);
-        area.transform(affineTransform);
-        shape = area;
-
-        while (true) {
-            // przygotowanie nastepnego kadru
-            shape = nextFrame();
-            try {
-                Thread.sleep(dDelay);
-            } catch (InterruptedException e) {
-                return ;
-            }
-        }
-    }
 
     protected Shape nextFrame() {
         // zapamietanie na zmiennej tymczasowej
         // aby nie przeszkadzalo w wykreslaniu
-    	System.out.println(this);
+    	
         area = new Area(area);
         affineTransform = new AffineTransform();
 
@@ -95,21 +84,41 @@ public abstract class Circle implements Runnable, ActionListener {
         int cy = bounds.y + bounds.height / 2;
         
         // odbicie
-        System.out.println(dWidth);
+      
         if (cx < 0 || cx > WIDTH-MARGIN) //te wartości można by zweryfikować
             dPosX = -dPosX;
         if (cy < 0 || cy > HEIGHT-MARGIN) //te wartości też można by zweryfikować
             dPosY = -dPosY;
 
-        // konstrukcja przeksztalcenia
-//        affineTransform.translate(cx, cy);
-//        affineTransform.translate(-cx, -cy);
+
+        this.x+=dPosX;
+        this.y+=dPosY;
+        
         affineTransform.translate(dPosX, dPosY);
 
         // przeksztalcenie obiektu
         area.transform(affineTransform);
         return area;
     }
+	public int getX() {
+		return x;
+	}
+
+	public void setX(int x) {
+		this.x = x;
+	}
+
+	public int getY() {
+		return y;
+	}
+
+	public void setY(int y) {
+		this.y = y;
+	}
+
+
+
+	
  
   
 }
