@@ -6,38 +6,42 @@ import java.awt.event.ActionListener;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Area;
 import java.awt.geom.Ellipse2D;
+import java.util.concurrent.locks.ReentrantLock;
+
+import app.AnimPanel;
+import utils.Helper;
+
+public class Person extends Circle implements ActionListener {
 
 
-public class Person extends Circle implements ActionListener {	// musi rozszerzac jakas klase od ksztaltu
-
-//	private double x;	// obecny X
-//	private double y;	// obecny Y
-//	private double vx;	// wektor X
-//	private double vy;	// wektor Y
-	private boolean infected = false;	// informacja czy jest zarazony
-	private boolean vaxxed = false;		// informacja czy jest zaszczepiony
-	private final boolean doctor;		// informacja czy jest doktorem
+	private boolean infected = false; // informacja czy jest zarazony
+	private boolean vaxxed = false; // informacja czy jest zaszczepiony
+	private final boolean doctor; // informacja czy jest doktorem
 	private Color color = PersonColors.NORMAL;
 
 	/* pelny konstruktor */
 	public Person(Graphics2D buffer, int delay, boolean isADoctor) {
 		super(buffer, delay);
 		doctor = isADoctor;
-		if(isADoctor) {
+		if (isADoctor) {
 			color = PersonColors.DOCTOR;
 		}
 		affineTransform = new AffineTransform();
 
 		area = new Area(super.shape);
-		/* poczatkowy wektor: + albo - (przy kolizji z krawedzia okna bedzie zmienial znak) */
-//		this.vx = RND.nextBoolean() ? 4 : -4;
-//		this.vy = RND.nextBoolean() ? 4 : -4;
+		
 
 	}
 
 	public void setInfected(boolean val) {
 		this.infected = val;
-		this.color = PersonColors.INFECTED;
+		
+		if(!val) {
+			this.color = PersonColors.NORMAL;
+		}
+		else {
+			this.color = PersonColors.INFECTED;
+		}
 	}
 
 	public void setVaxxed(boolean val) {
@@ -65,19 +69,29 @@ public class Person extends Circle implements ActionListener {	// musi rozszerza
 		g2DBuffer.draw(shape);
 	}
 
-//	public double getdWidth() {
-//		return x;
-//	}
-//
-//	public double getdHeight() {
-//		return y;
-//	}
+	
 
-//	public void move() {
-//		/*
-//		 * 	setX(getdWidth() + vx);
-//		 * 	setY(getdHeight() + vy);
-//		 * 	+ wykrywanie kolizji z oknem
-//		 */
-//	}
+	@Override
+	public void run() {
+		// przesuniecie na srodek
+		affineTransform.translate(100, 100);
+		area.transform(affineTransform);
+		shape = area;
+
+		while (true) {
+			// przygotowanie nastepnego kadru
+			shape = nextFrame();
+			try {
+				Thread.sleep(super.dDelay);
+				if(!vaxxed || doctor || infected) {
+					Helper.isColliding(this);
+				}
+			} catch (InterruptedException e) {
+
+				return;
+			}
+		}
+	}
+
+
 }
