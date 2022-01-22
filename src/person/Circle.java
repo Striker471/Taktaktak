@@ -83,5 +83,4 @@ public abstract class Circle implements Runnable, ActionListener {
 	public void setY(int y) {
 		this.y = y;
 	}
-
 }
