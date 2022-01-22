@@ -84,7 +84,7 @@ public abstract class Circle implements Runnable, ActionListener {
 
         if (cx < 10 || cx > WIDTH - MARGIN - 15)
             dPosX = -dPosX;
-        if (cy < 10 || cy > HEIGHT - MARGIN - 15)
+        if (cy < 10 || cy > HEIGHT - MARGIN - 70)
             dPosY = -dPosY;
 
 
