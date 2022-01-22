@@ -10,10 +10,13 @@ import person.Person;
 public class Helper {
 
 	/*
-	 * statyczna metoda ktĂłra odpowiada za sprawdzanie kolizji odpala siÄ™ w
-	 * przypadku gdy obiekt byĹ‚ lekarzem albo chorym Math.abs() oblicza wartoĹ›Ä‡
-	 * bezwzglÄ™dnÄ… z rĂłĹĽnicy wspĂłĹ‚rzÄ™dnych obiektĂłw jeĹĽeli doktor spotkaĹ‚
-	 * chorego to go leczy jeĹĽeli chory spotkaĹ‚ zdrowego to go zaraĹĽa
+	 statyczna metoda ktora odpowiada za sprawdzanie kolizji odpala sie w
+	 * przypadku gdy obiekt byl‚ lekarzem albo chorym Math.abs() oblicza wartosc
+	 * bezwzgledna z roznicy wspolrzednych obiektow
+	 * jezeli doktor spotkal‚ chorego to ma szanse go uleczyc,
+	 * a jezeli spotkal zdrowego, bez odpornosci to go szczepi
+	 * jezeli chory spotkal zdrowego, bez odpornosci to go zaraza,
+	 * a jezeli spotkal zaszczepionego to ma szanse go zarazic
 	 */
 	private static Random RND = new Random();
 	
@@ -29,10 +32,14 @@ public class Helper {
 					if (p.isInfected() && RND.nextDouble() > 0.4) {
 						p.setInfected(false);
 					}
+					if(!p.isInfected() && !p.isImmune() && !p.isDoctor()){
+						p.setVaxxed(true);
+					}
 				}
 				
 				if (thePerson.isInfected()) {
-					if (!p.isDoctor() && !p.isImmune()) {
+					if ((!p.isDoctor() && !p.isImmune() && !p.isVaxxed()) ||
+							(!p.isDoctor() && p.isVaxxed() && RND.nextDouble() < 0.25)) {
 						p.setInfected(true);
 					}
 				}
