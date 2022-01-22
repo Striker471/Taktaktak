@@ -1,118 +1,87 @@
 package person;
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Area;
 import java.awt.geom.Ellipse2D;
 import java.util.Random;
 
-import app.AnimPanel;
-
-import static app.Window.HEIGHT;
-import static app.Window.WIDTH;
-
 public abstract class Circle implements Runnable, ActionListener {
+	protected AffineTransform affineTransform; // przeksztalcenie obiektu
+	protected Graphics2D g2DBuffer;
+	protected Shape shape;
 
-    // wspolny bufor
-    protected Graphics2D g2DBuffer;
-    protected Area area;
+	// wspolny bufor
+	public int speed = 2;
+	protected Area area;
 
-    // do wykreslania
-    private final int dWidth;
-    private final int dHeight;
-    //    private int radius;
-    protected Shape shape;
-    private static final int MARGIN = 10;    // margines spawnowania
+	// Swing nie tworzy okna o zadanych wymiarach, to są realne
+	final private int WIDTH = 984;
+	final private int HEIGHT = 645;
 
-    private static final Random RND = new Random();
+	// private int radius;
+	private static final int MARGIN = 20; // margines spawnowania
 
-    // przeksztalcenie obiektu
-    protected AffineTransform affineTransform;
+	private static final Random RND = new Random();
+	private int vx, vy; // wektory
+	private int x, y; // wartość obecnego x i y obiektu
 
-    // przesuniecie
-    private int dPosX, dPosY;
-    protected final int dDelay;
+	public Circle(Graphics2D buffer) {
+		/* TO WSZYSTKO IMO DO KLASY PERSON */
+		g2DBuffer = buffer;
 
-    // wartość obecnego x i y obiektu 
-    private int x, y;
+		x = RND.nextInt(WIDTH - 3*MARGIN) + MARGIN;
+		y = RND.nextInt(HEIGHT - 3*MARGIN) + MARGIN;
 
+		shape = new Ellipse2D.Double(x, y, 10, 10);
 
-    protected static final Random rand = new Random();
+		vx = RND.nextBoolean() ? RND.nextInt(speed) + 1 : RND.nextInt(speed) + -speed;
+		vy = RND.nextBoolean() ? RND.nextInt(speed) + 1 : RND.nextInt(speed) + -speed;
+	}
 
+	protected Shape nextFrame() {
+		Rectangle bounds = area.getBounds();
+		int cx = bounds.x + bounds.width / 2; 	// X srodka
+		int cy = bounds.y + bounds.height / 2; 	// Y srodka
 
-    public Circle(Graphics2D buffer, int delay) {
-        this.dWidth = RND.nextInt(WIDTH - 2 * MARGIN) + MARGIN;
-        this.dHeight = RND.nextInt(HEIGHT - 2 * MARGIN) + MARGIN;
-        this.x = dWidth;
-        this.y = dHeight;
-        g2DBuffer = buffer;
-        dDelay = delay;
-        this.shape = new Ellipse2D.Double(dWidth, dHeight, 10, 10);
-        dPosX = 1 + rand.nextInt(5);
-        dPosY = 1 + rand.nextInt(5);
-    }
+		// odbicie
+		if (cx <= 5 || cx >= WIDTH - 5) {
+			vx = -vx;
+		}
+		if (cy <= 5 || cy >= HEIGHT - 5) {
+			vy = -vy;
+		}
 
-    public double getdWidth() {
-        return dWidth;
-    }
+		this.x += vx;
+		this.y += vy;
 
-    public double getdHeight() {
-        return dHeight;
-    }
+		affineTransform = new AffineTransform();
+		affineTransform.translate(vx, vy);
 
+		// przeksztalcenie obiektu
+		area.transform(affineTransform);
+		return area;
+	}
+	
+	public Rectangle getBounds() {
+		return shape.getBounds();
+	}
 
-    public Rectangle getBounds() {
-        return shape.getBounds();
-    }
+	public int getX() {
+		return x;
+	}
 
+	public void setX(int x) {
+		this.x = x;
+	}
 
-    protected Shape nextFrame() {
-        // zapamietanie na zmiennej tymczasowej
-        // aby nie przeszkadzalo w wykreslaniu
+	public int getY() {
+		return y;
+	}
 
-        area = new Area(area);
-        affineTransform = new AffineTransform();
-
-        Rectangle bounds = area.getBounds();
-
-        int cx = bounds.x + bounds.width / 2;
-        int cy = bounds.y + bounds.height / 2;
-
-        // odbicie
-
-        if (cx < 10 || cx > WIDTH - MARGIN - 15)
-            dPosX = -dPosX;
-        if (cy < 10 || cy > HEIGHT - MARGIN - 15)
-            dPosY = -dPosY;
-
-
-        this.x += dPosX;
-        this.y += dPosY;
-
-        affineTransform.translate(dPosX, dPosY);
-
-        // przeksztalcenie obiektu
-        area.transform(affineTransform);
-        return area;
-    }
-
-    public int getX() {
-        return x;
-    }
-
-    public void setX(int x) {
-        this.x = x;
-    }
-
-    public int getY() {
-        return y;
-    }
-
-    public void setY(int y) {
-        this.y = y;
-    }
-
+	public void setY(int y) {
+		this.y = y;
+	}
 
 }
