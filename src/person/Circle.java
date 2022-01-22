@@ -22,9 +22,9 @@ public abstract class Circle implements Runnable, ActionListener {
     // do wykreslania
     private final int dWidth;
     private final int dHeight;
-//    private int radius;
+    //    private int radius;
     protected Shape shape;
-    private static final int MARGIN = 10;	// margines spawnowania
+    private static final int MARGIN = 10;    // margines spawnowania
 
     private static final Random RND = new Random();
 
@@ -34,20 +34,19 @@ public abstract class Circle implements Runnable, ActionListener {
     // przesuniecie
     private int dPosX, dPosY;
     protected final int dDelay;
-    
+
     // wartość obecnego x i y obiektu 
     private int x, y;
-   
+
 
     protected static final Random rand = new Random();
 
 
-
     public Circle(Graphics2D buffer, int delay) {
-        this.dWidth = RND.nextInt(WIDTH-2*MARGIN) + MARGIN;
-        this.dHeight = RND.nextInt(HEIGHT-2*MARGIN) + MARGIN;
-        this.x= dWidth;
-        this.y= dHeight;
+        this.dWidth = RND.nextInt(WIDTH - 2 * MARGIN) + MARGIN;
+        this.dHeight = RND.nextInt(HEIGHT - 2 * MARGIN) + MARGIN;
+        this.x = dWidth;
+        this.y = dHeight;
         g2DBuffer = buffer;
         dDelay = delay;
         this.shape = new Ellipse2D.Double(dWidth, dHeight, 10, 10);
@@ -64,17 +63,15 @@ public abstract class Circle implements Runnable, ActionListener {
     }
 
 
-
     public Rectangle getBounds() {
         return shape.getBounds();
     }
 
 
-
     protected Shape nextFrame() {
         // zapamietanie na zmiennej tymczasowej
         // aby nie przeszkadzalo w wykreslaniu
-    	
+
         area = new Area(area);
         affineTransform = new AffineTransform();
 
@@ -82,43 +79,40 @@ public abstract class Circle implements Runnable, ActionListener {
 
         int cx = bounds.x + bounds.width / 2;
         int cy = bounds.y + bounds.height / 2;
-        
+
         // odbicie
-      
-        if (cx < 0 || cx > WIDTH-MARGIN) //te wartości można by zweryfikować
+
+        if (cx < 10 || cx > WIDTH - MARGIN - 15)
             dPosX = -dPosX;
-        if (cy < 0 || cy > HEIGHT-MARGIN) //te wartości też można by zweryfikować
+        if (cy < 10 || cy > HEIGHT - MARGIN - 15)
             dPosY = -dPosY;
 
 
-        this.x+=dPosX;
-        this.y+=dPosY;
-        
+        this.x += dPosX;
+        this.y += dPosY;
+
         affineTransform.translate(dPosX, dPosY);
 
         // przeksztalcenie obiektu
         area.transform(affineTransform);
         return area;
     }
-	public int getX() {
-		return x;
-	}
 
-	public void setX(int x) {
-		this.x = x;
-	}
+    public int getX() {
+        return x;
+    }
 
-	public int getY() {
-		return y;
-	}
+    public void setX(int x) {
+        this.x = x;
+    }
 
-	public void setY(int y) {
-		this.y = y;
-	}
+    public int getY() {
+        return y;
+    }
+
+    public void setY(int y) {
+        this.y = y;
+    }
 
 
-
-	
- 
-  
 }
