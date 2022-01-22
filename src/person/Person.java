@@ -5,23 +5,21 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Area;
-import java.awt.geom.Ellipse2D;
-import java.util.concurrent.locks.ReentrantLock;
 
 import app.AnimPanel;
 import utils.Helper;
 
 public class Person extends Circle implements ActionListener {
 
-
+	private boolean immune = false;
 	private boolean infected = false; // informacja czy jest zarazony
 	private boolean vaxxed = false; // informacja czy jest zaszczepiony
 	private final boolean doctor; // informacja czy jest doktorem
 	private Color color = PersonColors.NORMAL;
 
 	/* pelny konstruktor */
-	public Person(Graphics2D buffer, int delay, boolean isADoctor) {
-		super(buffer, delay);
+	public Person(Graphics2D buffer, boolean isADoctor) {
+		super(buffer);
 		doctor = isADoctor;
 		if (isADoctor) {
 			color = PersonColors.DOCTOR;
@@ -29,17 +27,15 @@ public class Person extends Circle implements ActionListener {
 		affineTransform = new AffineTransform();
 
 		area = new Area(super.shape);
-		
-
 	}
 
 	public void setInfected(boolean val) {
 		this.infected = val;
-		
-		if(!val) {
+
+		if (!val) {
 			this.color = PersonColors.NORMAL;
-		}
-		else {
+			this.immune = true;
+		} else {
 			this.color = PersonColors.INFECTED;
 		}
 	}
@@ -47,6 +43,10 @@ public class Person extends Circle implements ActionListener {
 	public void setVaxxed(boolean val) {
 		this.vaxxed = val;
 		this.color = PersonColors.VAXXED;
+	}
+	
+	public boolean isImmune() {
+		return immune;
 	}
 
 	public boolean isInfected() {
@@ -69,29 +69,23 @@ public class Person extends Circle implements ActionListener {
 		g2DBuffer.draw(shape);
 	}
 
-	
-
 	@Override
 	public void run() {
 		// przesuniecie na srodek
-		affineTransform.translate(100, 100);
 		area.transform(affineTransform);
-		shape = area;
 
 		while (true) {
 			// przygotowanie nastepnego kadru
 			shape = nextFrame();
 			try {
-				Thread.sleep(super.dDelay);
-				if(!vaxxed || doctor || infected) {
+				Thread.sleep(AnimPanel.delay);
+				if (!vaxxed || doctor || infected) {
 					Helper.isColliding(this);
 				}
-			} catch (InterruptedException e) {
-
+			} catch (Exception e) {
 				return;
 			}
 		}
 	}
-
 
 }
