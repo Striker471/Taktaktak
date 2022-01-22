@@ -30,6 +30,8 @@ public class Elements {
     {
         JButton button = new JButton(text);
 
+        button.setForeground(Color.WHITE);
+        button.setBackground(Color.DARK_GRAY);
         button.setSize(width, height);
         button.setFocusable(false);
 
@@ -40,6 +42,7 @@ public class Elements {
     {
         JSlider slider = new JSlider(minValue, maxValue, defaultValue);
 
+        slider.setBackground(Color.LIGHT_GRAY);
         slider.setFocusable(false);
         slider.setSize(200,50);
 
