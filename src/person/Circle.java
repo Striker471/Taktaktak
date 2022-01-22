@@ -85,9 +85,9 @@ public abstract class Circle implements Runnable, ActionListener {
         
         // odbicie
       
-        if (cx < 0 || cx > WIDTH-MARGIN) //te wartości można by zweryfikować
+        if (cx < 10 || cx > WIDTH-MARGIN-15)
             dPosX = -dPosX;
-        if (cy < 0 || cy > HEIGHT-MARGIN) //te wartości też można by zweryfikować
+        if (cy < 10 || cy > HEIGHT-MARGIN-15)
             dPosY = -dPosY;
 
 
