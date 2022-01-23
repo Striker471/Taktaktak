@@ -1,5 +1,7 @@
 package app;
 
+import person.Person;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -23,6 +25,7 @@ public class Window {
 	private void addContent() {
 		JButton addDoctorButton = elements.createButton("Add Doctor");
 		JButton addNormalButton = elements.createButton("Add Normal");
+		JButton startVaccinating = elements.createButton("Start vaccinating");
 		JLabel speedLabel = new JLabel("Animation speed:");
 		JSlider speedSetter = elements.createSlider(1, 50, 5);
 
@@ -36,10 +39,12 @@ public class Window {
 
 		addDoctorButton.addActionListener(e -> animPanel.addDoctor());
 		addNormalButton.addActionListener(e -> animPanel.addNormal());
+		startVaccinating.addActionListener(e-> Person.startVaxx = true);
 		speedSetter.addChangeListener(e -> animPanel.addNormal());
 
 		toolbar.add(addDoctorButton);
 		toolbar.add(addNormalButton);
+		toolbar.add(startVaccinating);
 		toolbar.add(speedLabel);
 		toolbar.add(speedSetter);
 
