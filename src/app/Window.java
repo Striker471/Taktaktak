@@ -27,6 +27,7 @@ public class Window {
 	private void addContent() {
 		JButton addDoctorButton = elements.createButton("Add Doctor");
 		JButton addNormalButton = elements.createButton("Add Normal");
+		JButton startVaccinating = elements.createButton("Start vaccinating");
 		JLabel speedLabel = new JLabel("Animation speed:");
 		JSlider speedSetter = elements.createSlider(1, 5,2 );
 
@@ -40,18 +41,23 @@ public class Window {
 
 		addDoctorButton.addActionListener(e -> animPanel.addDoctor());
 		addNormalButton.addActionListener(e -> animPanel.addNormal());
+    startVaccinating.addActionListener(e-> Person.startVaxx = true);
+    
 		speedSetter.addChangeListener(new ChangeListener() {
 			@Override
 			public void stateChanged(ChangeEvent e) {
 				JSlider source = (JSlider) e.getSource();
-				if(currentspeed!=source.getValue()){
+				 if(currentspeed!=source.getValue()){
 					currentspeed= source.getValue();
 					Person.speed = currentspeed;
-}}
-			});
+         }
+       }
+		});
+
 
 		toolbar.add(addDoctorButton);
 		toolbar.add(addNormalButton);
+		toolbar.add(startVaccinating);
 		toolbar.add(speedLabel);
 		toolbar.add(speedSetter);
 

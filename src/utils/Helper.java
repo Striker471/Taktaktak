@@ -32,14 +32,13 @@ public class Helper {
 					if (p.isInfected() && RND.nextDouble() > 0.4) {
 						p.setInfected(false);
 					}
-					if(!p.isInfected() && !p.isImmune() && !p.isDoctor()){
+					if(!p.isInfected() && !p.isImmune() && !p.isDoctor() && Person.startVaxx){
 						p.setVaxxed(true);
 					}
 				}
 				
-				if (thePerson.isInfected()) {
-					if ((!p.isDoctor() && !p.isImmune() && !p.isVaxxed()) ||
-							(!p.isDoctor() && p.isVaxxed() && RND.nextDouble() < 0.25)) {
+				if (thePerson.isInfected() && !p.isDoctor()) {
+					if (!p.isImmune() && !p.isVaxxed()){
 						p.setInfected(true);
 					}
 				}
