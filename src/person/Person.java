@@ -8,6 +8,8 @@ import java.awt.geom.Area;
 import java.awt.geom.Ellipse2D;
 import java.util.Random;
 
+import static java.lang.Math.abs;
+
 import app.AnimPanel;
 import utils.Helper;
 
@@ -34,6 +36,8 @@ public class Person implements Runnable, ActionListener {
 	private static final Random RND = new Random();
 	private int vx, vy; // wektory
 	private int x, y; // wartość obecnego x i y obiektu
+	private int maxiV = 4;
+	private int miniV = 3;
 
 
 	/* pelny konstruktor */
@@ -60,14 +64,25 @@ public class Person implements Runnable, ActionListener {
 		this.infected = val;
 
 		if (!val) {
+			maxiV = 4;
+			miniV = 3;
+
 			this.color = PersonColors.NORMAL;
 			this.immune = true;
 		} else {
+			maxiV = 3;
+			miniV = 2;
+
 			this.color = PersonColors.INFECTED;
 		}
 	}
 
+
 	public void setVaxxed(boolean val) {
+		maxiV=RND.nextInt(6-3)+3; //jesli dobrze przyjmie szczepionke to jest szybszy jesli zle to wolniejszy
+		miniV = maxiV - 2;
+		if(miniV<2) miniV =2;
+
 		this.vaxxed = val;
 		this.color = PersonColors.VAXXED;
 	}
@@ -79,10 +94,12 @@ public class Person implements Runnable, ActionListener {
 
 		// odbicie
 		if (cx <= 5 || cx >= WIDTH - 5) {
-			vx = -vx;
+			vx = -vx/abs(vx);
+			vx = vx *(RND.nextInt(maxiV-miniV) + miniV);
 		}
 		if (cy <= 5 || cy >= HEIGHT - 5) {
-			vy = -vy;
+			vy = -vy/abs(vy);
+			vy = vy * (RND.nextInt(maxiV-miniV) + miniV);
 		}
 
 		this.x += vx;
