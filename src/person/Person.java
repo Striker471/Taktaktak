@@ -17,7 +17,7 @@ public class Person implements Runnable, ActionListener {
 	private boolean infected = false; // informacja czy jest zarazony
 	private boolean vaxxed = false; // informacja czy jest zaszczepiony
 	private final boolean doctor; // informacja czy jest doktorem
-	private static boolean startVaxx; // informacja czy zaczeto szczepienia
+	public static boolean startVaxx; // informacja czy zaczeto szczepienia
 	private Color color = PersonColors.NORMAL;
 	protected AffineTransform affineTransform; // przeksztalcenie obiektu
 	protected Graphics2D g2DBuffer;
@@ -72,9 +72,7 @@ public class Person implements Runnable, ActionListener {
 		this.vaxxed = val;
 		this.color = PersonColors.VAXXED;
 	}
-	public void setStartVaxx(){
-		startVaxx = true;
-	}
+
 
 	protected Shape nextFrame() {
 		Rectangle bounds = area.getBounds();
@@ -119,7 +117,6 @@ public class Person implements Runnable, ActionListener {
 	public boolean isDoctor() {
 		return doctor;
 	}
-	public boolean isVaxxStarted() {return startVaxx; }
 
 	public int getX() {
 		return x;

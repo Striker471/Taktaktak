@@ -84,16 +84,6 @@ public class AnimPanel extends JPanel implements ActionListener {
 		timer.addActionListener(newPerson);
 		new Thread(newPerson).start();
 	}
-	//Dodanie mozliwosci szczepien
-	void addStartVaccinating(){
-		final Person newPerson = new Person(buffer, false);
-
-		newPerson.setStartVaxx();
-		timer.addActionListener(newPerson);
-		people.add(newPerson);
-		new Thread(newPerson).start();
-
-	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {

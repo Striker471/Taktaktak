@@ -1,5 +1,7 @@
 package app;
 
+import person.Person;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -37,7 +39,7 @@ public class Window {
 
 		addDoctorButton.addActionListener(e -> animPanel.addDoctor());
 		addNormalButton.addActionListener(e -> animPanel.addNormal());
-		startVaccinating.addActionListener(e-> animPanel.addStartVaccinating());
+		startVaccinating.addActionListener(e-> Person.startVaxx = true);
 		speedSetter.addChangeListener(e -> animPanel.addNormal());
 
 		toolbar.add(addDoctorButton);
