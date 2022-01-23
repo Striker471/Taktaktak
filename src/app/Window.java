@@ -1,6 +1,8 @@
 package app;
 
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import java.awt.*;
 
 public class Window {
@@ -24,7 +26,7 @@ public class Window {
 		JButton addDoctorButton = elements.createButton("Add Doctor");
 		JButton addNormalButton = elements.createButton("Add Normal");
 		JLabel speedLabel = new JLabel("Animation speed:");
-		JSlider speedSetter = elements.createSlider(1, 50, 5);
+		JSlider speedSetter = elements.createSlider(1, 50, 15);
 
 		animPanel = new AnimPanel(WIDTH, HEIGHT - 36);
 		int movingSpeed = speedSetter.getValue();
@@ -36,7 +38,13 @@ public class Window {
 
 		addDoctorButton.addActionListener(e -> animPanel.addDoctor());
 		addNormalButton.addActionListener(e -> animPanel.addNormal());
-		speedSetter.addChangeListener(e -> animPanel.addNormal());
+		speedSetter.addChangeListener(new ChangeListener() {
+			@Override
+			public void stateChanged(ChangeEvent e) {
+				JSlider source = (JSlider) e.getSource();
+				animPanel.setdelay(source.getValue());
+
+			}});
 
 		toolbar.add(addDoctorButton);
 		toolbar.add(addNormalButton);

@@ -19,7 +19,7 @@ public class AnimPanel extends JPanel implements ActionListener {
 
 	// lista wszystkich obiektów klasy Person
 	public final static List<Person> people = new ArrayList<>();
-	public final static int delay = 15;
+	public static int delay = 15;
 
 	private final Timer timer;
 
@@ -55,6 +55,10 @@ public class AnimPanel extends JPanel implements ActionListener {
 		for (int i = 0; i < 2; i++) {
 			addDoctor();
 		}
+	}
+	// zmiana szybkości
+	void setdelay(int newdelay) {
+		delay=newdelay;
 	}
 
 	// Dodawanie zarażonych do listy people i tworzenie nowego wątku
