@@ -19,7 +19,7 @@ public class AnimPanel extends JPanel implements ActionListener {
 
 	// lista wszystkich obiektów klasy Person
 	public final static List<Person> people = new ArrayList<>();
-	public static int delay = 15;
+	public final static int delay = 15;
 
 	private final Timer timer;
 
@@ -56,10 +56,7 @@ public class AnimPanel extends JPanel implements ActionListener {
 			addDoctor();
 		}
 	}
-	// zmiana szybkości
-	void setdelay(int newdelay) {
-		delay=newdelay;
-	}
+
 
 	// Dodawanie zarażonych do listy people i tworzenie nowego wątku
 	void addInfected() {
@@ -100,4 +97,10 @@ public class AnimPanel extends JPanel implements ActionListener {
 		return people;
 	}
 
+	public  void toolbarspeed(float sliderfloat){
+		for(Person a : people)
+			a.setspeed(sliderfloat);
+
+
+	}
 }

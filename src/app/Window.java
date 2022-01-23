@@ -1,5 +1,7 @@
 package app;
 
+import person.Person;
+
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -15,7 +17,7 @@ public class Window {
 	private static final int WIDTH = 1000;
 	private static final int HEIGHT = 720;
 	public static int DELTA_SPEED = 1;
-
+	public static float currentspeed = 25 ;
 	public Window() {
 		window = elements.createFrame("Symulacja", WIDTH, HEIGHT);
 		toolbar = new JPanel();
@@ -26,7 +28,7 @@ public class Window {
 		JButton addDoctorButton = elements.createButton("Add Doctor");
 		JButton addNormalButton = elements.createButton("Add Normal");
 		JLabel speedLabel = new JLabel("Animation speed:");
-		JSlider speedSetter = elements.createSlider(1, 50, 15);
+		JSlider speedSetter = elements.createSlider(25, 150,50 );
 
 		animPanel = new AnimPanel(WIDTH, HEIGHT - 36);
 		int movingSpeed = speedSetter.getValue();
@@ -42,9 +44,12 @@ public class Window {
 			@Override
 			public void stateChanged(ChangeEvent e) {
 				JSlider source = (JSlider) e.getSource();
-				animPanel.setdelay(source.getValue());
+				if(currentspeed!=source.getValue()){
+					currentspeed= source.getValue();
 
-			}});
+				animPanel.toolbarspeed(currentspeed/25);
+}}
+			});
 
 		toolbar.add(addDoctorButton);
 		toolbar.add(addNormalButton);
