@@ -17,7 +17,7 @@ public class Window {
 	private static final int WIDTH = 1000;
 	private static final int HEIGHT = 720;
 	public static int DELTA_SPEED = 1;
-	public static float currentspeed = 25 ;
+	public static int currentspeed = 2 ;
 	public Window() {
 		window = elements.createFrame("Symulacja", WIDTH, HEIGHT);
 		toolbar = new JPanel();
@@ -28,7 +28,7 @@ public class Window {
 		JButton addDoctorButton = elements.createButton("Add Doctor");
 		JButton addNormalButton = elements.createButton("Add Normal");
 		JLabel speedLabel = new JLabel("Animation speed:");
-		JSlider speedSetter = elements.createSlider(25, 150,50 );
+		JSlider speedSetter = elements.createSlider(1, 5,2 );
 
 		animPanel = new AnimPanel(WIDTH, HEIGHT - 36);
 		int movingSpeed = speedSetter.getValue();
@@ -46,8 +46,7 @@ public class Window {
 				JSlider source = (JSlider) e.getSource();
 				if(currentspeed!=source.getValue()){
 					currentspeed= source.getValue();
-
-				animPanel.toolbarspeed(currentspeed/25);
+					Person.speed = currentspeed;
 }}
 			});
 

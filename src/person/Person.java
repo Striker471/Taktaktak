@@ -22,8 +22,7 @@ public class Person implements Runnable, ActionListener {
 	protected Graphics2D g2DBuffer;
 	protected Shape shape;
 	protected Area area;
-	private float speed1= 2;
-	public int speed = 2; // wspolny bufor
+	public static int speed = 2; // wspolny bufor
 
 	// Swing nie tworzy okna o zadanych wymiarach, to są realne
 	final private int WIDTH = 984;
@@ -32,7 +31,7 @@ public class Person implements Runnable, ActionListener {
 	private static final int MARGIN = 20; // margines spawnowania
 
 	private static final Random RND = new Random();
-	private float vx, vy; // wektory
+	private int vx, vy; // wektory
 	private int x, y; // wartość obecnego x i y obiektu
 
 
@@ -66,14 +65,6 @@ public class Person implements Runnable, ActionListener {
 		} else {
 			this.color = PersonColors.INFECTED;
 		}
-	}
-	// zmiana szybkości
-	public void setspeed(float newspeed) {
-
-		vx= vx/speed1*newspeed;
-		vy= vy/speed1*newspeed;
-		speed1 = newspeed;
-
 	}
 
 	public void setVaxxed(boolean val) {

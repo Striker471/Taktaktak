@@ -97,10 +97,4 @@ public class AnimPanel extends JPanel implements ActionListener {
 		return people;
 	}
 
-	public  void toolbarspeed(float sliderfloat){
-		for(Person a : people)
-			a.setspeed(sliderfloat);
-
-
-	}
 }
